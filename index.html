@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Party Map</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="quest.css">
+</head>
+<body>
+  <main class="stage">
+
+    <section id="gate" class="gate">
+      <h1>Geheimer Eingang</h1>
+      <p>Die Türsteher sprechen nur in Geheimschrift. Entschlüssele die Nachricht, um auf die Party zu kommen.</p>
+
+      <p id="cipher" class="cipher" aria-label="Verschlüsselte Nachricht"></p>
+
+      <form id="gate-form" autocomplete="off">
+        <label for="answer">Deine Lösung</label>
+        <input id="answer" type="text" spellcheck="false" autofocus>
+        <button type="submit">Tür öffnen</button>
+      </form>
+
+      <p id="feedback" class="feedback" role="status"></p>
+    </section>
+
+    <canvas id="game" width="960" height="600" hidden
+            aria-label="Party Map mit Tanzfläche, DJ-Pult und Bar"></canvas>
+
+  </main>
+
+  <!-- Java Quest: liegt über der Party Map, zunächst versteckt -->
+  <div id="quest" hidden>
+    <h2 class="title">Java Quest</h2>
+    <p class="sub">Folge dem Faden – löse jede Aufgabe, um das nächste Level freizuschalten.</p>
+    <svg id="map" viewBox="0 0 400 640" role="img" aria-label="Level-Karte"></svg>
+    <p id="win">🎉 Alle Level geschafft – Glückwunsch!</p>
+    <div id="modal"><div class="card" id="card"></div></div>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
