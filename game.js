@@ -300,19 +300,210 @@ public ___ istTeilnehmer(Gast g) {
 },
 
 {type:'game',title:'3D-Zielwurf'},
-{type:'gap',title:'Schleifen',secret:'FEW',answers:['for','else','while'],
- hints:['Zählschleife','Alternative zu if','Schleife mit Bedingung am Anfang'],
- code:`int summe = 0;
-___ (int i = 1; i <= 4; i++) {
-    if (i % 2 == 0) {
-        summe += i;
-    } ___ {
-        summe -= 1;
-    }
+
+{type:'uml',title:'Klassendiagramm',secret:'DISCO',
+ story:'Im Tab „Code" siehst du die Party-Ausstattung. Zeichne im Tab „Klassendiagramm" alles selbst: Klassen, Attribute, Methoden und Pfeile.',
+ code:` public class Ausstattung {
+ protected String name;
+ protected double preis;
+ protected String zustand;
+ // Array für die Verantwortlichen
+ protected Verantwortlicher[] verantwortliche;
+ protected int anzahlVerantwortliche;
+ public Ausstattung(String name, double preis, String zustand) {
+ this.name = name;
+ this.preis = preis;
+ this.zustand = zustand;
+ verantwortliche = new Verantwortlicher[10];
+ anzahlVerantwortliche = 0;
+ }
+ public String getName() {
+ return name;
+ }
+ public void setZustand(String zustand) {
+ this.zustand = zustand;
+ }
+ public void anzeigen() {
+ System.out.println("Name: " + name);
+ System.out.println("Preis: " + preis + " Euro");
+ System.out.println("Zustand: " + zustand);
+ }
+ // Verantwortlichen hinzufügen
+ public void verantwortlichenHinzufuegen(Verantwortlicher person) {
+ if (person == null) {
+ System.out.println("Ungültige Person!");
+ return;
+ }
+ if (anzahlVerantwortliche >= verantwortliche.length) {
+ System.out.println("Keine Plätze mehr frei!");
+ return;
+ }
+ for (int i = 0; i < anzahlVerantwortliche; i++) {
+ if (verantwortliche[i] == person) {
+ System.out.println("Person schon eingetragen");
+ return;
+ }
+ }
+ verantwortliche[anzahlVerantwortliche] = person;
+ anzahlVerantwortliche++;
+ person.ausstattungHinzufuegen(this);
+ }
+ public void verantwortlicheAnzeigen() {
+ System.out.println("Verantwortliche für " + name + ":");
+ for (int i = 0; i < anzahlVerantwortliche; i++) {
+ System.out.println("- " + verantwortliche[i].getName());
+ }
+ }
 }
-___ (summe > 0) {
-    summe--;
-}`},
+public class Technik extends Ausstattung {
+ protected int stromverbrauch;
+ public Technik(String name, double preis, String zustand, int stromverbrauch) {
+ super(name, preis, zustand);
+ this.stromverbrauch = stromverbrauch;
+ }
+}
+public class Dekoration extends Ausstattung {
+ protected String farbe;
+ public Dekoration(String name, double preis, String zustand, String farbe) {
+ super(name, preis, zustand);
+ this.farbe = farbe;
+ }
+}
+public class Musikanlage extends Technik {
+ private int lautstaerke;
+ public Musikanlage(String name, double preis, String zustand, int stromverbrauch, int lautstaerke) {
+ super(name, preis, zustand, stromverbrauch);
+ this.lautstaerke = lautstaerke;
+ }
+ public void lautstaerkeAendern(int lautstaerke) {
+ this.lautstaerke = lautstaerke;
+ System.out.println("Neue Lautstärke: " + lautstaerke);
+ }
+}
+public class Lichtanlage extends Technik {
+ private String lichtfarbe;
+ public Lichtanlage(String name, double preis, String zustand, int stromverbrauch, String lichtfarbe) {
+ super(name, preis, zustand, stromverbrauch);
+ this.lichtfarbe = lichtfarbe;
+ }
+ public void lichtfarbeAendern(String lichtfarbe) {
+ this.lichtfarbe = lichtfarbe;
+ System.out.println("Neue Lichtfarbe: " + lichtfarbe);
+ }
+}
+public class Raum {
+ private String raumname;
+ private int kapazitaet;
+ // Array für die Ausstattung
+ private Ausstattung[] ausstattung;
+ private int anzahlAusstattung;
+ public Raum(String raumname, int kapazitaet) {
+ this.raumname = raumname;
+ this.kapazitaet = kapazitaet;
+ ausstattung = new Ausstattung[20];
+ anzahlAusstattung = 0;
+ }
+ public void ausstattungHinzufuegen(Ausstattung a) {
+ if (a == null) {
+ System.out.println("Ungültige Ausstattung!");
+ return;
+ }
+ if (anzahlAusstattung >= ausstattung.length) {
+ System.out.println("Raum ist voll ausgestattet!");
+ return;
+ }
+ for (int i = 0; i < anzahlAusstattung; i++) {
+ if (ausstattung[i] == a) {
+ System.out.println("Ausstattung schon vorhanden.");
+ return;
+ }
+ }
+ ausstattung[anzahlAusstattung] = a;
+ anzahlAusstattung++;
+ System.out.println(a.getName() + " wurde dem Raum hinzugefügt.");
+ }
+ public void ausstattungAnzeigen() {
+ System.out.println("Ausstattung im Raum " + raumname);
+ for (int i = 0; i < anzahlAusstattung; i++) {
+ System.out.println(ausstattung[i].getName() + " ,");
+ }
+ }
+ public void raumInformationen() {
+ System.out.println("Raum: " + raumname);
+ System.out.println("Kapazität: " + kapazitaet);
+ }
+}
+class Verantwortlicher {
+ private String name;
+ private String aufgabe;
+ // Array für die Zuständigkeiten
+ private Ausstattung[] zustaendigkeiten;
+ private int anzahlZustaendigkeiten;
+ public Verantwortlicher(String name, String aufgabe) {
+ this.name = name;
+ this.aufgabe = aufgabe;
+ zustaendigkeiten = new Ausstattung[10];
+ anzahlZustaendigkeiten = 0;
+ }
+ public String getName() {
+ return name;
+ }
+ public void aufgabeAendern(String aufgabe) {
+ this.aufgabe = aufgabe;
+ }
+ public void ausstattungHinzufuegen(Ausstattung a) {
+ if (a == null) {
+ System.out.println("Ungültige Ausstattung!");
+ return;
+ }
+ if (anzahlZustaendigkeiten >= zustaendigkeiten.length) {
+ System.out.println("Keine weiteren Zuständigkeiten möglich!");
+ return;
+ }
+ for (int i = 0; i < anzahlZustaendigkeiten; i++) {
+ if (zustaendigkeiten[i] == a) {
+ return;
+ }
+ }
+ zustaendigkeiten[anzahlZustaendigkeiten] = a;
+ anzahlZustaendigkeiten++;
+ }
+ public void zustaendigkeitenAnzeigen() {
+ System.out.println(name + " ist zuständig für:");
+ for (int i = 0; i < anzahlZustaendigkeiten; i++) {
+ System.out.println(zustaendigkeiten[i].getName() + " ,");
+ }
+ System.out.println("Aufgabe: " + aufgabe);
+ }
+}`,
+  solution:{
+  classes:{
+   Ausstattung:{
+    a:['# name : String','# preis : double','# zustand : String','# verantwortliche : Verantwortlicher[]','# anzahlVerantwortliche : int'],
+    m:['+ Ausstattung(name, preis, zustand)','+ getName()','+ setZustand(zustand)','+ anzeigen()','+ verantwortlichenHinzufuegen(person)','+ verantwortlicheAnzeigen()']},
+   Technik:{
+    a:['# stromverbrauch : int'],
+    m:['+ Technik(name : String, preis : double, zustand : String, stromverbrauch : int)']},
+   Dekoration:{
+    a:['# farbe : String'],
+    m:['+ Dekoration(name : String, preis : double, zustand : String, farbe : String)']},
+   Musikanlage:{
+    a:['- lautstaerke : int'],
+    m:['+ Musikanlage(name : String, preis : double, zustand : String, stromverbrauch : int, lautstaerke : int)','+ lautstaerkeAendern(lautstaerke : int) : void']},
+   Lichtanlage:{
+    a:['- lichtfarbe : String'],
+    m:['+ Lichtanlage(name : String, preis : double, zustand : String, stromverbrauch : int, lichtfarbe : String)','+ lichtfarbeAendern(lichtfarbe : String) : void']},
+   Raum:{
+    a:['- raumname : String','- kapazitaet : int','- ausstattung : Ausstattung[]','- anzahlAusstattung : int'],
+    m:['+ Raum(raumname : String, kapazitaet : int)','+ ausstattungHinzufuegen(a : Ausstattung) : void','+ ausstattungAnzeigen() : void','+ raumInformationen() : void']},
+   Verantwortlicher:{
+    a:['- name : String','- aufgabe : String','- zustaendigkeiten : Ausstattung[]','- anzahlZustaendigkeiten : int'],
+    m:['+ Verantwortlicher(name : String, aufgabe : String)','+ getName() : String','+ aufgabeAendern(aufgabe : String) : void','+ ausstattungHinzufuegen(a : Ausstattung) : void','+ zustaendigkeitenAnzeigen() : void']}
+  },
+  erbt:[['Technik','Ausstattung'],['Dekoration','Ausstattung'],['Musikanlage','Technik'],['Lichtanlage','Technik']],
+  assoz:[['Raum','1','Ausstattung','0..20'],['Ausstattung','0..10','Verantwortlicher','0..10']]
+ }},
+
 {type:'gap',title:'Kapselung',secret:'POT',answers:['private','Object','this'],
  hints:['Nur innerhalb der Klasse sichtbar','Oberklasse aller Klassen','Verweis auf das aktuelle Objekt'],
  code:`public class Hund {
@@ -325,6 +516,7 @@ ___ (summe > 0) {
     }
 }`}
 ];
+
 const P=[[80,80],[310,230],[90,400],[300,560]];
 const SEG=['M80 80C80 160 310 150 310 230','M310 230C310 310 90 320 90 400','M90 400C90 480 300 470 300 560'];
 let unlocked=1;const done={};let cleanup=null;
@@ -347,10 +539,11 @@ function complete(n){done[n]=true;unlocked=Math.max(unlocked,n+1);renderMap()}
 function closeModal(){if(cleanup){cleanup();cleanup=null}$('modal').style.display='none'}
 function openLevel(n){
   const L=LEVELS[n-1];
+  $('card').className='card'+(L.type==='uml'?' wide':'');
   $('card').innerHTML=`<button class="close" aria-label="Schließen">×</button><h2>Level ${n} · ${L.title}</h2><div id="body"></div>`;
   $('card').querySelector('.close').onclick=closeModal;
   $('modal').style.display='block';
-  (L.type==='gap'?gapTask:gameTask)(n,L,$('body'));
+  ({gap:gapTask, uml:umlTask, game:gameTask}[L.type])(n,L,$('body'));
 }
 
 function gapTask(n,L,el){
@@ -388,7 +581,145 @@ function gapTask(n,L,el){
     }else{$('msg').className='msg bad';$('msg').textContent='Falscher Code.'}
   };
 }
+// Ersetzt die komplette alte umlTask-Funktion in game.js.
+// Das Bild "klassendiagramm.png" (2400 x 1500 px) muss im selben Ordner wie index.html liegen.
+function umlTask(n,L,el){
+  const S=L.solution;
+  const IW=2400,IH=1500;   // Größe des Bildes in Pixeln, alle Koordinaten unten beziehen sich darauf
 
+  // Textfelder in den Kästen: [Klasse, 'a' = Attribute | 'm' = Methoden, x, y, Breite, Höhe]
+  const BOXES=[
+    ['Raum','a',632,101,476,117],            ['Raum','m',632,219,476,117],
+    ['Ausstattung','a',564,501,613,141],     ['Ausstattung','m',564,643,613,168],
+    ['Verantwortlicher','a',1709,521,503,116],['Verantwortlicher','m',1709,638,503,143],
+    ['Technik','a',401,1061,439,41],         ['Technik','m',401,1103,439,68],
+    ['Dekoration','a',1116,1061,429,41],     ['Dekoration','m',1116,1103,429,68],
+    ['Musikanlage','a',72,1321,457,41],      ['Musikanlage','m',72,1363,457,118],
+    ['Lichtanlage','a',728,1321,465,41],     ['Lichtanlage','m',728,1363,465,118]
+  ];
+  // Felder an den beiden Assoziationen: [Nr. der Assoziation in solution.assoz, Feld, x, y, Breite, Höhe, Platzhalter]
+  // m1 = Ende bei der ersten Klasse der Assoziation, m2 = Ende bei der zweiten Klasse, lb = Beschriftung
+  const ASSOC=[
+    [0,'m1',880,340,100,38,'0..*'], [0,'m2',880,406,100,38,'0..*'], [0,'lb',640,374,220,34,'Beschriftung'],
+    [1,'m1',1187,488,100,38,'0..*'],[1,'m2',1600,488,100,38,'0..*'],[1,'lb',1320,538,250,38,'Beschriftung']
+  ];
+
+  const pos=(x,y,w,h)=>`left:${x/IW*100}%;top:${y/IH*100}%;width:${w/IW*100}%;height:${h/IH*100}%`;
+  const boxHtml=BOXES.map(([c,k,x,y,w,h],i)=>
+    `<textarea class="uf" data-box="${i}" style="${pos(x,y,w,h)}" placeholder="${k==='a'?'Attribute':'Methoden'}"
+      spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="${k==='a'?'Attribute':'Methoden'} von ${c}"></textarea>`).join('');
+  const assocHtml=ASSOC.map(([a,f,x,y,w,h,ph],i)=>
+    `<input class="uf" data-as="${i}" style="${pos(x,y,w,h)}" placeholder="${ph}"
+      spellcheck="false" autocomplete="off" aria-label="${f==='lb'?'Beschriftung':'Multiplizität'} der Assoziation ${a+1}">`).join('');
+
+  el.innerHTML=`<p>${L.story}</p>
+  <div class="tabs"><button class="tab on" data-t="c">Code</button><button class="tab" data-t="d">Klassendiagramm</button></div>
+  <div id="pc"><pre>${esc(L.code)}</pre></div>
+  <div id="pd" style="display:none">
+    <div class="uwrap"><div class="uimg">
+      <img src="klassendiagramm.png" alt="Klassendiagramm mit leeren Attribut- und Methodenfeldern zum Ausfüllen" draggable="false">
+      ${boxHtml}${assocHtml}
+    </div></div>
+    <p class="hint">Schreibe in UML-Schreibweise: <code># name : String</code> für Attribute, <code>+ setZustand(zustand : String) : void</code> für Methoden. Konstruktoren gehören auch dazu. Sichtbarkeit: <code>+</code> public, <code>-</code> private, <code>#</code> protected.</p>
+    <p class="hint">Bei den beiden Linien trägst du die Multiplizitäten (z. B. <code>0..20</code>) an den Enden und eine Beschriftung in der Mitte ein. Das Feld, in dem du gerade schreibst, wird größer.</p>
+  </div>
+  <button class="b" id="chk">Prüfen</button>
+  <p>Code: <input class="codein" id="cin" maxlength="${L.secret.length}" autocomplete="off"> <button class="b" id="unl">Freischalten</button></p>
+  <div class="msg" id="msg"></div>`;
+
+  // ---------- Tabs ----------
+  el.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+    el.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t===b));
+    $('pc').style.display=b.dataset.t==='c'?'block':'none';
+    $('pd').style.display=b.dataset.t==='d'?'block':'none';
+  });
+
+  // ---------- Felder wachsen beim Schreiben, damit man alles lesen kann ----------
+  const fields=[...el.querySelectorAll('.uf')];
+  const boxField=i=>el.querySelector(`textarea[data-box="${i}"]`);
+  const asField=i=>el.querySelector(`input[data-as="${i}"]`);
+  fields.forEach(f=>{
+    if(f.tagName!=='TEXTAREA')return;
+    const base=f.style.height;          // ursprüngliche Höhe in %
+    let min=0;
+    const fit=()=>{f.style.height='auto';f.style.height=Math.max(f.scrollHeight+2,min)+'px'};
+    f.addEventListener('focus',()=>{min=f.offsetHeight;fit()});
+    f.addEventListener('input',()=>{fit();f.classList.remove('ok','bad')});
+    f.addEventListener('blur',()=>{f.style.height=base});
+  });
+  fields.filter(f=>f.tagName==='INPUT').forEach(f=>f.addEventListener('input',()=>f.classList.remove('ok','bad')));
+
+  // ---------- Prüfung ----------
+  // Sichtbarkeit am Zeilenanfang und ALLE Leerzeichen werden ignoriert
+  const strip=s=>s.trim().replace(/^[+\-−#~]\s*/,'');
+  const clean=s=>strip(s).replace(/\s+/g,'').toLowerCase();
+  // Attribut: "name : String" und "String name" sind beide richtig
+  const attrForms=s=>{const [nm_,t]=strip(s).split(':');
+    const N=(nm_||'').replace(/\s+/g,'').toLowerCase(),T=(t||'').replace(/\s+/g,'').toLowerCase();
+    return [N+':'+T,T+N]};
+  // Methode/Konstruktor: nur der Name vor der Klammer zählt, Klammern müssen aber da sein
+  const methForms=s=>{const m=strip(s).replace(/\s+/g,'').toLowerCase();
+    return m.includes('(')&&m.includes(')')?[m.split('(')[0]]:[]};
+  const studentAttr=s=>{const t=strip(s);return t.includes(':')?[attrForms(t)[0]]:[clean(t)]};
+  const studentMeth=s=>methForms(s);
+  const mk=(m,w)=>m.replace(/\s/g,'')===w;
+  const rawLines=t=>t.value.split('\n').map((s,i)=>({s:s.trim(),nr:i+1})).filter(x=>x.s);
+
+  // vergleicht Schülerzeilen mit der Lösung, liefert falsche Zeilen + Anzahl fehlender
+  function compare(want,formsOf,studentOf,lines){
+    const Wf=want.map(formsOf),used=Wf.map(()=>false),wrong=[];
+    lines.forEach(l=>{
+      const keys=studentOf(l.s);
+      const idx=Wf.findIndex((f,i)=>!used[i]&&keys.length&&f.some(x=>keys.includes(x)));
+      if(idx>=0)used[idx]=true;else wrong.push(l);
+    });
+    return {wrong,missing:used.filter(u=>!u).length};
+  }
+
+  $('chk').onclick=()=>{
+    const msgs=[];let all=true;
+    fields.forEach(f=>f.classList.remove('ok','bad'));
+
+    // Attribute und Methoden je Klasse
+    BOXES.forEach(([cn,k],i)=>{
+      const f=boxField(i),d=S.classes[cn];
+      const isA=k==='a';
+      const R=compare(isA?d.a:d.m,isA?attrForms:methForms,isA?studentAttr:studentMeth,rawLines(f));
+      const bad=R.wrong.length||R.missing;
+      f.classList.add(bad?'bad':'ok');
+      if(bad){
+        all=false;
+        const what=isA?'Attribute':'Methoden';
+        R.wrong.forEach(l=>msgs.push(`<b>${esc(cn)}</b>, ${what}, Zeile ${l.nr}: „${esc(l.s)}" ist falsch.`));
+        if(R.missing)msgs.push(`<b>${esc(cn)}</b>: Es fehlen noch ${R.missing} ${isA?'Attribut(e)':'Methode(n)/Konstruktor(en)'}.`);
+      }
+    });
+
+    // Assoziationen: Multiplizitäten an beiden Enden + Beschriftung
+    S.assoz.forEach(([x,mx,y,my],a)=>{
+      const get=key=>{const i=ASSOC.findIndex(s=>s[0]===a&&s[1]===key);return asField(i)};
+      const f1=get('m1'),f2=get('m2'),fl=get('lb');
+      const ok1=mk(f1.value,mx),ok2=mk(f2.value,my),okl=!!fl.value.trim();
+      f1.classList.add(ok1?'ok':'bad');f2.classList.add(ok2?'ok':'bad');fl.classList.add(okl?'ok':'bad');
+      if(!(ok1&&ok2&&okl)){
+        all=false;
+        if(!ok1)msgs.push(`Assoziation ${esc(x)} – ${esc(y)}: Die Multiplizität bei ${esc(x)} ist falsch.`);
+        if(!ok2)msgs.push(`Assoziation ${esc(x)} – ${esc(y)}: Die Multiplizität bei ${esc(y)} ist falsch.`);
+        if(!okl)msgs.push(`Assoziation ${esc(x)} – ${esc(y)}: Die Beschriftung fehlt.`);
+      }
+    });
+
+    $('msg').className='msg '+(all?'ok':'bad');
+    $('msg').innerHTML=all?'Perfekt, das Diagramm stimmt! Dein Code: <b>'+esc(L.secret)+'</b>':msgs.join('<br>');
+  };
+
+  $('unl').onclick=()=>{
+    if($('cin').value.trim().toUpperCase()===L.secret){
+      $('msg').className='msg ok';$('msg').textContent='✔ Code richtig – nächstes Level freigeschaltet!';
+      complete(n);setTimeout(closeModal,1200);
+    }else{$('msg').className='msg bad';$('msg').textContent='Falscher Code.'}
+  };
+}
 function gameTask(n,L,el){
   el.innerHTML=`<p>Wirf das Geschenk auf den Geburtstagstisch! Stelle Richtung, Winkel und Kraft ein.</p><div id="gbox"></div>
   <div class="ctl"><label>Richtung</label><input type="range" id="yaw" min="-30" max="30" value="0"><span id="yawv">0°</span></div>
