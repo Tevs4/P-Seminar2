@@ -135,3 +135,60 @@ padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
 #quest #gbox canvas{display:block;width:100%;height:100%}
 #quest .ctl{display:grid;grid-template-columns:90px 1fr 40px;gap:6px;align-items:center;margin:6px 0}
 #quest p{margin:10px 0}
+#quest .tabs{display:flex;gap:6px;margin:10px 0 0}
+#quest .tab{background:var(--bg);color:var(--muted);border:2px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0;padding:8px 14px;font-size:.95rem;cursor:pointer}
+#quest .tab.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+#quest #pc pre{max-height:60vh;overflow:auto;border-radius:0 10px 10px 10px;margin-top:0}
+#quest .uml{background:var(--code);border-radius:0 10px 10px 10px;padding:10px;overflow-x:auto}
+#quest .uml svg{display:block;width:100%;min-width:900px;height:auto}
+#quest .lbl{fill:var(--muted);font:12px system-ui,sans-serif;text-anchor:middle}
+#quest .cls{width:100%;height:100%;display:flex;flex-direction:column;background:var(--card);border:2px solid var(--muted);border-radius:4px;color:var(--codeink);font:12px/1.4 ui-monospace,Menlo,Consolas,monospace}
+#quest .cls.ok{border-color:var(--ok)}
+#quest .cls.bad{border-color:var(--bad)}
+#quest .cls input,#quest .cls textarea{width:100%;background:transparent;color:var(--codeink);border:0;outline:0;font:inherit;padding:4px 6px;resize:none}
+#quest .cls .cn{text-align:center;font-weight:700;font-size:13px;background:var(--line);color:#fff}
+#quest .cls .ca{flex:1;border-bottom:1px solid var(--muted)}
+#quest .cls .cm{flex:1.3}
+#quest .cls :focus-visible{background:#ffffff14}
+#quest .port{fill:var(--accent);stroke:#fff;stroke-width:2;cursor:crosshair;touch-action:none}
+#quest .ln{fill:none;stroke:var(--muted);stroke-width:2}
+#quest .ln.tmp{stroke:var(--accent);stroke-dasharray:6 4}
+#quest .tri{fill:var(--code);stroke:var(--muted);stroke-width:1.5}
+#quest .mult{fill:#ffd479;font:13px ui-monospace,monospace}
+#quest button.tl{background:var(--bg);color:var(--muted);border:2px solid var(--line)}
+#quest button.tl.on{background:var(--accent);border-color:var(--accent);color:#fff}
+#quest .arow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0;font-size:.9rem}
+#quest .arow input{width:4.5em;padding:4px;border-radius:6px;border:2px solid var(--line);background:var(--bg);color:var(--ink);text-align:center}
+#quest .arow button.b{padding:2px 10px;margin:0}  
+/* ===== Level 3: Klassendiagramm als Bild – ans Ende von quest.css kopieren ===== */
+
+/* breitere Karte nur für dieses Level (die normale Karte bleibt bei 620px) */
+#quest .card.wide{max-width:min(1280px,100%)}
+
+/* Rahmen um das Bild: scrollt auf kleinen Bildschirmen seitlich, statt das Bild zu quetschen */
+#quest .uwrap{overflow-x:auto;background:var(--code);border-radius:0 10px 10px 10px}
+#quest .uimg{position:relative;min-width:860px;container-type:inline-size;line-height:0}
+#quest .uimg img{display:block;width:100%;height:auto;user-select:none}
+
+/* Eingabefelder, die auf dem Bild liegen (Position und Größe kommen als Prozent aus dem JS) */
+#quest .uf{
+  position:absolute;
+  background:transparent;
+  color:#ffd479;
+  border:1px dashed #a79bd666;
+  border-radius:3px;
+  padding:2px 5px;
+  resize:none;
+  outline:0;
+  font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:11px;                 /* Fallback */
+  font-size:max(10px,.95cqw);     /* wächst und schrumpft mit dem Bild */
+  line-height:1.2;
+}
+#quest textarea.uf{overflow:auto;scrollbar-width:thin}
+#quest input.uf{text-align:center}
+#quest .uf::placeholder{color:#a79bd6aa;font-family:system-ui,sans-serif}
+#quest .uf:hover{border-color:var(--muted)}
+#quest .uf:focus{background:#150f33;border:1px solid var(--accent);z-index:6}
+#quest .uf.ok{border:1px solid var(--ok);color:var(--ok)}
+#quest .uf.bad{border:1px solid var(--bad);color:var(--bad)}
