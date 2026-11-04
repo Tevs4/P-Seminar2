@@ -233,7 +233,7 @@ form.addEventListener("submit", (e) => {
   answer.select();
 });
 const LEVELS=[
-{type:'gap',title:'Klasse & Objekt',secret:'SECHSHUNDERTSIEBEN',answers:['class','String','int', 'String', 'extends', 'super', 'personenId','extends', 'HELFER','super', 'println','maxTeilnehmer', 'getAnzahl','boolean','for','if'],
+{type:'gap',title:'Klasse & Objekt',secret:'607',answers:['class','String','int', 'String', 'extends', 'super', 'personenId','extends', 'HELFER','super', 'println','maxTeilnehmer', 'getAnzahl','boolean','for','if'],
 pos:[1,1,2,1,[1,4],2,10,3,1,1,4,12,8,[1,5],3,1],
 order:[2,5,1,10,4,14,7,3,8,6,17,9,11,18,13,15,16,12],
  hints:['Es handelt sich hier um Java und um Vererbung, am Ende das Lösungswort = Code.'],
@@ -302,180 +302,221 @@ public ___ istTeilnehmer(Gast g) {
 {type:'game',title:'3D-Zielwurf'},
 
 {type:'uml',title:'Klassendiagramm',secret:'DISCO',
- story:'Im Tab „Code" siehst du die Party-Ausstattung. Zeichne im Tab „Klassendiagramm" alles selbst: Klassen, Attribute, Methoden und Pfeile.',
+ story:'Im Tab „Code" siehst du die Party-Ausstattung. Zeichne im Tab „Klassendiagramm" alles selbst: Attribute, Methoden und Vererbungen.',
  code:` public class Ausstattung {
- protected String name;
- protected double preis;
- protected String zustand;
- // Array für die Verantwortlichen
- protected Verantwortlicher[] verantwortliche;
- protected int anzahlVerantwortliche;
- public Ausstattung(String name, double preis, String zustand) {
- this.name = name;
- this.preis = preis;
- this.zustand = zustand;
- verantwortliche = new Verantwortlicher[10];
- anzahlVerantwortliche = 0;
- }
- public String getName() {
- return name;
- }
- public void setZustand(String zustand) {
- this.zustand = zustand;
- }
- public void anzeigen() {
- System.out.println("Name: " + name);
- System.out.println("Preis: " + preis + " Euro");
- System.out.println("Zustand: " + zustand);
- }
- // Verantwortlichen hinzufügen
- public void verantwortlichenHinzufuegen(Verantwortlicher person) {
- if (person == null) {
- System.out.println("Ungültige Person!");
- return;
- }
- if (anzahlVerantwortliche >= verantwortliche.length) {
- System.out.println("Keine Plätze mehr frei!");
- return;
- }
- for (int i = 0; i < anzahlVerantwortliche; i++) {
- if (verantwortliche[i] == person) {
- System.out.println("Person schon eingetragen");
- return;
- }
- }
- verantwortliche[anzahlVerantwortliche] = person;
- anzahlVerantwortliche++;
- person.ausstattungHinzufuegen(this);
- }
- public void verantwortlicheAnzeigen() {
- System.out.println("Verantwortliche für " + name + ":");
- for (int i = 0; i < anzahlVerantwortliche; i++) {
- System.out.println("- " + verantwortliche[i].getName());
- }
- }
+   protected String name;
+   protected double preis;
+   protected String zustand;
+    // Array für die Verantwortlichen
+   protected Verantwortlicher[] verantwortliche;
+   protected int anzahlVerantwortliche;
+
+   public Ausstattung(String name, double preis, String zustand) {
+      this.name = name;
+      this.preis = preis;
+      this.zustand = zustand;
+      verantwortliche = new Verantwortlicher[10];
+      anzahlVerantwortliche = 0;
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setZustand(String zustand) {
+      this.zustand = zustand;
+   }
+
+   public void anzeigen() {
+      System.out.println("Name: " + name);
+      System.out.println("Preis: " + preis + " Euro");
+      System.out.println("Zustand: " + zustand);
+   }
+
+    // Verantwortlichen hinzufügen
+
+   public void verantwortlichenHinzufuegen(Verantwortlicher person) {
+      if (person == null) {
+         System.out.println("Ungültige Person!");
+         return;
+      }
+
+      if (anzahlVerantwortliche >= verantwortliche.length) {
+         System.out.println("Keine Plätze mehr frei!");
+         return;
+      }
+
+      for (int i = 0; i < anzahlVerantwortliche; i++) {
+         if (verantwortliche[i] == person) {
+            System.out.println("Person schon eingetragen");
+            return;
+         }
+      }
+      verantwortliche[anzahlVerantwortliche] = person;
+      anzahlVerantwortliche++;
+      person.ausstattungHinzufuegen(this);
+   }
+
+   public void verantwortlicheAnzeigen() {
+      System.out.println("Verantwortliche für " + name + ":");
+      for (int i = 0; i < anzahlVerantwortliche; i++) {
+         System.out.println("- " + verantwortliche[i].getName());
+      }
+   }
 }
+
+// Unterklasse Technik
+
 public class Technik extends Ausstattung {
- protected int stromverbrauch;
- public Technik(String name, double preis, String zustand, int stromverbrauch) {
- super(name, preis, zustand);
- this.stromverbrauch = stromverbrauch;
- }
+   protected int stromverbrauch;
+   public Technik(String name, double preis, String zustand, int stromverbrauch) {
+      super(name, preis, zustand);
+      this.stromverbrauch = stromverbrauch;
+   }
 }
+
+// Unterklasse Dekoration
+
 public class Dekoration extends Ausstattung {
- protected String farbe;
- public Dekoration(String name, double preis, String zustand, String farbe) {
- super(name, preis, zustand);
- this.farbe = farbe;
- }
+   protected String farbe;
+   public Dekoration(String name, double preis, String zustand, String farbe) {
+      super(name, preis, zustand);
+      this.farbe = farbe;
+   }
 }
+
+// Unterklasse von Technik
+
 public class Musikanlage extends Technik {
- private int lautstaerke;
- public Musikanlage(String name, double preis, String zustand, int stromverbrauch, int lautstaerke) {
- super(name, preis, zustand, stromverbrauch);
- this.lautstaerke = lautstaerke;
- }
- public void lautstaerkeAendern(int lautstaerke) {
- this.lautstaerke = lautstaerke;
- System.out.println("Neue Lautstärke: " + lautstaerke);
- }
+   private int lautstaerke;
+   public Musikanlage(String name, double preis, String zustand, int stromverbrauch, int lautstaerke) {
+      super(name, preis, zustand, stromverbrauch);
+      this.lautstaerke = lautstaerke;
+   }
+
+   public void lautstaerkeAendern(int lautstaerke) {
+      this.lautstaerke = lautstaerke;
+      System.out.println("Neue Lautstärke: " + lautstaerke);
+   }
 }
+
+// Unterklasse von Technik
+
 public class Lichtanlage extends Technik {
- private String lichtfarbe;
- public Lichtanlage(String name, double preis, String zustand, int stromverbrauch, String lichtfarbe) {
- super(name, preis, zustand, stromverbrauch);
- this.lichtfarbe = lichtfarbe;
- }
- public void lichtfarbeAendern(String lichtfarbe) {
- this.lichtfarbe = lichtfarbe;
- System.out.println("Neue Lichtfarbe: " + lichtfarbe);
- }
+   private String lichtfarbe;
+   public Lichtanlage(String name, double preis, String zustand, int stromverbrauch, String lichtfarbe) {
+      super(name, preis, zustand, stromverbrauch);
+      this.lichtfarbe = lichtfarbe;
+   }
+
+   public void lichtfarbeAendern(String lichtfarbe) {
+      this.lichtfarbe = lichtfarbe;
+      System.out.println("Neue Lichtfarbe: " + lichtfarbe);
+   }
 }
+
+// Raum mit 1:n-Beziehung zu Ausstattung
+
 public class Raum {
- private String raumname;
- private int kapazitaet;
- // Array für die Ausstattung
- private Ausstattung[] ausstattung;
- private int anzahlAusstattung;
- public Raum(String raumname, int kapazitaet) {
- this.raumname = raumname;
- this.kapazitaet = kapazitaet;
- ausstattung = new Ausstattung[20];
- anzahlAusstattung = 0;
- }
- public void ausstattungHinzufuegen(Ausstattung a) {
- if (a == null) {
- System.out.println("Ungültige Ausstattung!");
- return;
- }
- if (anzahlAusstattung >= ausstattung.length) {
- System.out.println("Raum ist voll ausgestattet!");
- return;
- }
- for (int i = 0; i < anzahlAusstattung; i++) {
- if (ausstattung[i] == a) {
- System.out.println("Ausstattung schon vorhanden.");
- return;
- }
- }
- ausstattung[anzahlAusstattung] = a;
- anzahlAusstattung++;
- System.out.println(a.getName() + " wurde dem Raum hinzugefügt.");
- }
- public void ausstattungAnzeigen() {
- System.out.println("Ausstattung im Raum " + raumname);
- for (int i = 0; i < anzahlAusstattung; i++) {
- System.out.println(ausstattung[i].getName() + " ,");
- }
- }
- public void raumInformationen() {
- System.out.println("Raum: " + raumname);
- System.out.println("Kapazität: " + kapazitaet);
- }
+   private String raumname;
+   private int kapazitaet;
+    // Array für die Ausstattung
+   private Ausstattung[] ausstattung;
+   private int anzahlAusstattung;
+   public Raum(String raumname, int kapazitaet) {
+      this.raumname = raumname;
+      this.kapazitaet = kapazitaet;
+      ausstattung = new Ausstattung[20];
+      anzahlAusstattung = 0;
+   }
+
+   public void ausstattungHinzufuegen(Ausstattung a) {
+      if (a == null) {
+         System.out.println("Ungültige Ausstattung!");
+         return;
+      }
+
+      if (anzahlAusstattung >= ausstattung.length) {
+         System.out.println("Raum ist voll ausgestattet!");
+         return;
+      }
+
+      for (int i = 0; i < anzahlAusstattung; i++) {
+         if (ausstattung[i] == a) {
+            System.out.println("Ausstattung schon vorhanden.");
+            return;
+         }
+      }
+      ausstattung[anzahlAusstattung] = a;
+      anzahlAusstattung++;
+      System.out.println(a.getName() + " wurde dem Raum hinzugefügt.");
+   }
+
+   public void ausstattungAnzeigen() {
+      System.out.println("Ausstattung im Raum " + raumname);
+      for (int i = 0; i < anzahlAusstattung; i++) {
+         System.out.println(ausstattung[i].getName() + " ,");
+      }
+   }
+
+   public void raumInformationen() {
+      System.out.println("Raum: " + raumname);
+      System.out.println("Kapazität: " + kapazitaet);
+   }
+
 }
+
+// Verantwortlicher mit n:m-Beziehung
+
 class Verantwortlicher {
- private String name;
- private String aufgabe;
- // Array für die Zuständigkeiten
- private Ausstattung[] zustaendigkeiten;
- private int anzahlZustaendigkeiten;
- public Verantwortlicher(String name, String aufgabe) {
- this.name = name;
- this.aufgabe = aufgabe;
- zustaendigkeiten = new Ausstattung[10];
- anzahlZustaendigkeiten = 0;
- }
- public String getName() {
- return name;
- }
- public void aufgabeAendern(String aufgabe) {
- this.aufgabe = aufgabe;
- }
- public void ausstattungHinzufuegen(Ausstattung a) {
- if (a == null) {
- System.out.println("Ungültige Ausstattung!");
- return;
- }
- if (anzahlZustaendigkeiten >= zustaendigkeiten.length) {
- System.out.println("Keine weiteren Zuständigkeiten möglich!");
- return;
- }
- for (int i = 0; i < anzahlZustaendigkeiten; i++) {
- if (zustaendigkeiten[i] == a) {
- return;
- }
- }
- zustaendigkeiten[anzahlZustaendigkeiten] = a;
- anzahlZustaendigkeiten++;
- }
- public void zustaendigkeitenAnzeigen() {
- System.out.println(name + " ist zuständig für:");
- for (int i = 0; i < anzahlZustaendigkeiten; i++) {
- System.out.println(zustaendigkeiten[i].getName() + " ,");
- }
- System.out.println("Aufgabe: " + aufgabe);
- }
-}`,
+   private String name;
+   private String aufgabe;
+    // Array für die Zuständigkeiten
+   private Ausstattung[] zustaendigkeiten;
+   private int anzahlZustaendigkeiten;
+   public Verantwortlicher(String name, String aufgabe) {
+      this.name = name;
+      this.aufgabe = aufgabe;
+      zustaendigkeiten = new Ausstattung[10];
+      anzahlZustaendigkeiten = 0;
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void aufgabeAendern(String aufgabe) {
+      this.aufgabe = aufgabe;
+   }
+
+   public void ausstattungHinzufuegen(Ausstattung a) {
+      if (a == null) {
+            System.out.println("Ungültige Ausstattung!");
+            return;
+        }
+      if (anzahlZustaendigkeiten >= zustaendigkeiten.length) {
+         System.out.println("Keine weiteren Zuständigkeiten möglich!");
+         return;
+      }
+
+      for (int i = 0; i < anzahlZustaendigkeiten; i++) {
+         if (zustaendigkeiten[i] == a) {
+            return;
+         }
+      }
+      zustaendigkeiten[anzahlZustaendigkeiten] = a;
+      anzahlZustaendigkeiten++;
+   }
+
+   public void zustaendigkeitenAnzeigen() {
+      System.out.println(name + " ist zuständig für:");
+      for (int i = 0; i < anzahlZustaendigkeiten; i++) {
+         System.out.println(zustaendigkeiten[i].getName() + " ,");
+      }
+      System.out.println("Aufgabe: " + aufgabe);
+   }
+}
+`,
   solution:{
   classes:{
    Ausstattung:{
@@ -501,7 +542,7 @@ class Verantwortlicher {
     m:['+ Verantwortlicher(name : String, aufgabe : String)','+ getName() : String','+ aufgabeAendern(aufgabe : String) : void','+ ausstattungHinzufuegen(a : Ausstattung) : void','+ zustaendigkeitenAnzeigen() : void']}
   },
   erbt:[['Technik','Ausstattung'],['Dekoration','Ausstattung'],['Musikanlage','Technik'],['Lichtanlage','Technik']],
-  assoz:[['Raum','1','Ausstattung','0..20'],['Ausstattung','0..10','Verantwortlicher','0..10']]
+  assoz:[['Raum','1','Ausstattung','0..20'],['Ausstattung','0..20','Verantwortlicher','0..20']]
  }},
 
 {type:'gap',title:'Kapselung',secret:'POT',answers:['private','Object','this'],
@@ -620,8 +661,8 @@ function umlTask(n,L,el){
       <img src="klassendiagramm.png" alt="Klassendiagramm mit leeren Attribut- und Methodenfeldern zum Ausfüllen" draggable="false">
       ${boxHtml}${assocHtml}
     </div></div>
-    <p class="hint">Schreibe in UML-Schreibweise: <code># name : String</code> für Attribute, <code>+ setZustand(zustand : String) : void</code> für Methoden. Konstruktoren gehören auch dazu. Sichtbarkeit: <code>+</code> public, <code>-</code> private, <code>#</code> protected.</p>
-    <p class="hint">Bei den beiden Linien trägst du die Multiplizitäten (z. B. <code>0..20</code>) an den Enden und eine Beschriftung in der Mitte ein. Das Feld, in dem du gerade schreibst, wird größer.</p>
+    <p class="hint">Schreibe Methoden, Attribute und Vererbung in die Kästen. Vererbung (n..m) --> 0..n das Maximum ist 20 und nur 2 Punkte !!! .</p>
+    <p class="hint">Das Feld in welchem du arbeitest wird größer.</p>
   </div>
   <button class="b" id="chk">Prüfen</button>
   <p>Code: <input class="codein" id="cin" maxlength="${L.secret.length}" autocomplete="off"> <button class="b" id="unl">Freischalten</button></p>
